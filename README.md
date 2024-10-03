@@ -43,9 +43,4 @@ O pruébalo directamente en el siguiente enlace:
 
 ---
 
-## 🤝 Contribuciones
-¡Las contribuciones son bienvenidas! Si quieres mejorar el algoritmo de pathfinding, añadir nuevos enemigos o torres, no dudes en hacer un *pull request*.
-
----
-
 ¡Prepárate para defender el reino en **Dungeon Rush**!
