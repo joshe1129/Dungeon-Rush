@@ -16,6 +16,7 @@ public class GridManager : MonoBehaviour
         _Grid.Clear();
         CreateGrid();
     }
+
     public Node GetNode(Vector2Int coordinates)
     {
         if (_Grid.ContainsKey(coordinates))
@@ -24,6 +25,7 @@ public class GridManager : MonoBehaviour
         }
         return null;
     }
+
     public void BlockNode(Vector2Int coordinates)
     {
         if (_Grid.ContainsKey(coordinates))
@@ -42,7 +44,6 @@ public class GridManager : MonoBehaviour
         }
     }
 
-
     public Vector2Int GetCoordinatesFromPosition(Vector3 position)
     {
         Vector2Int coordinates = new Vector2Int();
@@ -51,6 +52,7 @@ public class GridManager : MonoBehaviour
 
         return coordinates;
     }
+
     public Vector3 GetPositionFromCoordinates(Vector2Int coordinates)
     {
         Vector3 position = new Vector3();
@@ -59,6 +61,7 @@ public class GridManager : MonoBehaviour
 
         return position;
     }
+    
     private void CreateGrid()
     {
         for (int x = 0; x < gridSize.x; x++)

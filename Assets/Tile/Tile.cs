@@ -14,8 +14,8 @@ public class Tile : MonoBehaviour
 
     private void Awake()
     {
-        gridManager = FindObjectOfType<GridManager>();
-        pathFinder = FindObjectOfType<Pathfinder>();
+        gridManager = FindFirstObjectByType<GridManager>();
+        pathFinder = FindFirstObjectByType<Pathfinder>();
     }
 
     private void Start()

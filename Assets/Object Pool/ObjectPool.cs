@@ -1,44 +1,94 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// ObjectPool gestiona la reutilización de enemigos mediante pooling y les inyecta dependencias necesarias.
+/// </summary>
 public class ObjectPool : MonoBehaviour
 {
-    [SerializeField] GameObject _EnemyPrefab;
-    [SerializeField] [Range(0.1f, 30f)] float spawnTimer = 1f;
-    [SerializeField] [Range(0, 50)] int poolSize = 5;
+    [Header("Configuración del Pool")]
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] [Range(0.1f, 30f)] private float spawnTimer = 1f;
+    [SerializeField] [Range(0, 50)] private int poolSize = 5;
 
-    GameObject[] pool;
+    [Header("Dependencias")]
+    [SerializeField] private Bank bank;
+
+    private GameObject[] pool;
 
     private void Awake()
     {
+        if (enemyPrefab == null)
+        {
+            Debug.LogError("ObjectPool: No se asignó Enemy Prefab.");
+            return;
+        }
+
+        if (bank == null)
+        {
+            Debug.LogError("ObjectPool: Faltan referencias a Bank o GameManager.");
+            return;
+        }
+
         PopulatePool();
     }
+
+    /// <summary>
+    /// Llena el pool instanciando enemigos desactivados.
+    /// </summary>
     private void PopulatePool()
     {
         pool = new GameObject[poolSize];
+
         for (int i = 0; i < pool.Length; i++)
         {
-            pool[i] = Instantiate(_EnemyPrefab, transform);
-            pool[i].SetActive(false);
+            GameObject enemy = Instantiate(enemyPrefab, transform);
+            enemy.SetActive(false);
+
+            InjectDependencies(enemy);
+
+            pool[i] = enemy;
         }
     }
-    void EnableObjectInPool()
+
+    /// <summary>
+    /// Activa un objeto disponible del pool.
+    /// </summary>
+    private void EnableObjectInPool()
     {
-        for (int i = 0;i < pool.Length;i++)
+        foreach (var enemy in pool)
         {
-            if (pool[i].activeInHierarchy == false)
+            if (!enemy.activeInHierarchy)
             {
-                pool[i].SetActive(true);
+                enemy.SetActive(true);
                 return;
             }
         }
     }
-    void Start()
+
+    /// <summary>
+    /// Inyecta referencias necesarias al enemigo.
+    /// </summary>
+    /// <param name="enemyObject">GameObject instanciado del enemigo</param>
+    private void InjectDependencies(GameObject enemyObject)
+    {
+        Enemy enemy = enemyObject.GetComponent<Enemy>();
+
+        if (enemy != null)
+        {
+            enemy.SetBank(bank);
+        }
+    }
+
+    private void Start()
     {
         StartCoroutine(SpawnEnemy());
     }
-    IEnumerator SpawnEnemy()
+
+    /// <summary>
+    /// Corrutina que activa enemigos en intervalos definidos.
+    /// </summary>
+    private IEnumerator SpawnEnemy()
     {
         while (true)
         {
@@ -46,5 +96,4 @@ public class ObjectPool : MonoBehaviour
             yield return new WaitForSeconds(spawnTimer);
         }
     }
-
 }

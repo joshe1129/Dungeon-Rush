@@ -13,8 +13,7 @@ public class TargetLocator : MonoBehaviour
     {
         _Target = FindAnyObjectByType<Enemy>().transform;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         FindClosestTarget();
@@ -23,7 +22,7 @@ public class TargetLocator : MonoBehaviour
 
     private void FindClosestTarget()
     {
-        Enemy[] _Enemies = FindObjectsOfType<Enemy>();
+        Enemy[] _Enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
         Transform closestTarget = null;
         float maxDistance = Mathf.Infinity;
 
@@ -56,16 +55,16 @@ public class TargetLocator : MonoBehaviour
 
     private void LookAtTarget()
     {
-        // Calcular la dirección hacia el objetivo ignorando la diferencia en el eje Y
+        // Calcular la direcciï¿½n hacia el objetivo ignorando la diferencia en el eje Y
         Vector3 direction = new Vector3(_Target.transform.position.x - transform.position.x, 0, _Target.transform.position.z - transform.position.z);
 
-        // Si la dirección no es cero, rotar el arma
+        // Si la direcciï¿½n no es cero, rotar el arma
         if (direction != Vector3.zero)
         {
-            // Calcular la rotación hacia la dirección
+            // Calcular la rotaciï¿½n hacia la direcciï¿½n
             Quaternion lookRotation = Quaternion.LookRotation(direction);
 
-            // Aplicar la rotación al arma limitándola solo al eje Y
+            // Aplicar la rotaciï¿½n al arma limitï¿½ndola solo al eje Y
             _Weapon.rotation = Quaternion.Euler(0, lookRotation.eulerAngles.y, 0);
         }
     }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
@@ -37,7 +36,7 @@ public class Tower : MonoBehaviour
 
     public bool CreateTower(Tower towerWizard, Vector3 position)
     {
-        Bank _Bank = FindObjectOfType<Bank>();
+        Bank _Bank = FindFirstObjectByType <Bank>();
         if (_Bank == null) { return false; }
         if(_Bank.CurrentBalance >= cost)
         {
