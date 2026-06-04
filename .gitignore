@@ -70,5 +70,4 @@ crashlytics-build.properties
 !/Assets/Scripts/**/*.asmdef
 
 # ---- Keep the repository metadata minimal ----
-README.md
 /.gitattributes
